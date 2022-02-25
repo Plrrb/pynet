@@ -6,7 +6,7 @@ Pynet is a Python library for making Servers and Clients.
 
 The chat_server.py and chat_client.py is a simple terminal chat program.
 
-Start the chat server like this put a port number where is says [port]:
+Start the chat server like this put a port number where it says [port]:
 
 ```bash
 python3 chat_server.py [port]
@@ -37,7 +37,6 @@ def on_recv(data):
 
 # This gets the IP and port from the terminal arguments and converts the port to an int
 address = (argv[1], int(argv[2]))
-
 client = Client.from_address(address, on_send, on_recv)
 
 client.start()
@@ -46,33 +45,21 @@ client.start()
 A server that takes clients data adds it to a database and send it to other clients:
 
 ```py
+from sys import argv
+from pynet import Server
 
-from pynet import Client, Server
+database = {}
 
+def on_send():
+    return database
 
-class DatabaseServer(Server):
-    def __init__(self, socket):
-        self.socket = socket
-        self.database = {}
+def on_recv(data):
+    database.update(data)
 
-    def on_send(self):
-        return self.database
+address = "", int(argv[1])
 
-    def on_recv(self, data):
-        self.database.update(data)
-
-    class ServerClient(Client):
-        def __init__(self, socket, server_send, server_recv):
-            self.socket = socket
-            self.server_send = server_send
-            self.server_recv = server_recv
-
-        def on_send(self):
-            return self.server_send()
-
-        def on_recv(self, data):
-            self.server_recv(data)
-
+s = Server.from_address(address, on_send, on_recv)
+s.start()
 ```
 
 ## Installation

@@ -1,13 +1,13 @@
-import socket
 from pickle import dumps, loads
+from socket import create_connection, create_server
 from threading import Thread
 
 
-class Client:
+class Network:
     __slots__ = "socket", "on_send", "on_recv", "running"
 
-    def __init__(self, socket, on_send, on_recv):
-        self.socket = socket
+    def __init__(self, sock, on_send, on_recv):
+        self.socket = sock
 
         self.on_send = on_send
         self.on_recv = on_recv
@@ -22,6 +22,10 @@ class Client:
         self.running = False
         self.socket.close()
 
+
+class Client(Network):
+    __slots__ = Network.__slots__
+
     def loop(self):
         self.running = True
 
@@ -32,11 +36,6 @@ class Client:
                 self.on_recv(self._recv())
         except ConnectionError:
             self.exit()
-
-    @classmethod
-    def from_address(cls, address, *args, **kwargs):
-        sock = socket.create_connection(address)
-        return cls(sock, *args, **kwargs)
 
     def _send(self, data):
         data = dumps(data)
@@ -49,20 +48,16 @@ class Client:
 
         return data
 
+    @classmethod
+    def from_address(cls, address, *args, **kwargs):
+        sock = create_connection(address)
+        return cls(sock, *args, **kwargs)
 
-class Server:
-    __slots__ = "socket", "running"
 
-    def __init__(self, socket):
-        self.socket = socket
+class Server(Network):
+    __slots__ = Network.__slots__
 
-    def start(self):
-        Thread(target=self.listen, daemon=True).start()
-
-    def stop(self):
-        self.running = False
-
-    def listen(self):
+    def loop(self):
         self.running = True
         self.socket.listen()
 
@@ -77,17 +72,9 @@ class Server:
     def connect_address(self, address):
         self.ServerClient.from_address(address, self.on_send, self.on_recv).start()
 
-    # to be overwritten
-    def on_send(self):
-        raise Exception("Server.on_send() wasn't overwritten")
-
-    # to be overwritten
-    def on_recv(self, _):
-        raise Exception("Server.on_recv() wasn't overwritten")
-
     @classmethod
     def from_address(cls, address, *args, **kwargs):
-        sock = socket.create_server(address)
+        sock = create_server(address)
         return cls(sock, *args, **kwargs)
 
     class ServerClient(Client):

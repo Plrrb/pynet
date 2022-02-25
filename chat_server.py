@@ -1,15 +1,18 @@
 import time
 from sys import argv
 
-from pynet import Client, Server
+from pynet import Server
 
 
-class ChatServer(Server):
-    __slots__ = Server.__slots__ + ("database",)
+class Chat:
+    __slots__ = "database", "server"
 
-    def __init__(self, socket):
-        self.socket = socket
+    def __init__(self, address):
         self.database = {}
+        self.server = Server.from_address(address, self.on_send, self.on_recv)
+
+    def start(self):
+        self.server.start()
 
     def on_send(self):
         return self.database
@@ -17,21 +20,9 @@ class ChatServer(Server):
     def on_recv(self, data):
         self.database.update(data)
 
-    class ServerClient(Client):
-        def __init__(self, socket, server_send, server_recv):
-            self.socket = socket
-            self.server_send = server_send
-            self.server_recv = server_recv
-
-        def on_send(self):
-            return self.server_send()
-
-        def on_recv(self, data):
-            self.server_recv(data)
-
 
 def main():
-    s = ChatServer.from_address(("", int(argv[1])))
+    s = Chat(("", int(argv[1])))
     s.start()
 
 
