@@ -1,5 +1,3 @@
-import time
-
 from pickle import dumps, loads
 from socket import create_connection, create_server
 from threading import Thread
@@ -82,6 +80,7 @@ class Server(Network):
     class ServerClient(Client):
         def __init__(self, sock, server_send, server_recv):
             self.socket = sock
+
             self.server_send = server_send
             self.server_recv = server_recv
 
