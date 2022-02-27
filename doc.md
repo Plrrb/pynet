@@ -28,6 +28,8 @@
   
 
 ### `Server()`
+- `__init__(sock, on_send, on_recv)`\
+  `sock` must be a server socket. `on_send` must return something to send. `on_recv` must take in some received data.
 
 - `start()`\
   Starts a Thread that calls `loop()`. can be stopped by calling `stop()`.
@@ -50,5 +52,9 @@
  - `from_address(address,  *args,  **kwargs)`\
  Creates a Server for you, just needs a tuple of `(Host, Port)` for the address.
 
-- ### `Server.ServerClient()`
-    work in progress
+### `Server.ServerClient()`
+  - `server_send()`\
+  Call this to get something to send from the Server.
+  
+  - `server_recv(data)`\
+  Call this to tell the Server you have something to give it.

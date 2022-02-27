@@ -34,7 +34,7 @@ class Client(Network):
                 self._send(self.on_send())
 
                 self.on_recv(self._recv())
-        except ConnectionError or EOFError:
+        except (ConnectionError, EOFError):
             self.exit()
 
     def _send(self, data):

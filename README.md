@@ -24,7 +24,7 @@ A simple client that sends "Hello World!" And prints what it receives:
 
 ```py
 from sys import argv
-from Pynet import Client
+from pynet import Client
 
 
 def on_send():
@@ -39,7 +39,7 @@ def on_recv(data):
 address = (argv[1], int(argv[2]))
 client = Client.from_address(address, on_send, on_recv)
 
-client.start()
+client.loop()
 ```
 
 A server that takes clients data adds it to a database and send it to other clients:
@@ -59,7 +59,7 @@ def on_recv(data):
 address = "", int(argv[1])
 
 s = Server.from_address(address, on_send, on_recv)
-s.start()
+s.loop()
 ```
 
 ## Installation
