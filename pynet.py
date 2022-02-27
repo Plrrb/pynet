@@ -1,3 +1,5 @@
+import time
+
 from pickle import dumps, loads
 from socket import create_connection, create_server
 from threading import Thread
@@ -34,7 +36,7 @@ class Client(Network):
                 self._send(self.on_send())
 
                 self.on_recv(self._recv())
-        except ConnectionError:
+        except ConnectionError or EOFError:
             self.exit()
 
     def _send(self, data):
@@ -78,4 +80,13 @@ class Server(Network):
         return cls(sock, *args, **kwargs)
 
     class ServerClient(Client):
-        pass
+        def __init__(self, sock, server_send, server_recv):
+            self.socket = sock
+            self.server_send = server_send
+            self.server_recv = server_recv
+
+        def on_send(self):
+            return self.server_send()
+
+        def on_recv(self, data):
+            self.server_recv(data)
