@@ -62,6 +62,9 @@ s = Server.from_address(address, on_send, on_recv)
 s.loop()
 ```
 
+## Documentation
+See the Docs [here](https://github.com/Plrrb/pynet/blob/main/doc.md)
+
 ## Installation
 
 Install with git:
