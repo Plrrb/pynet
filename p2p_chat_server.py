@@ -1,5 +1,6 @@
-from socket import create_server, gethostname, gethostbyname
+from socket import create_server, gethostbyname, gethostname
 from sys import argv
+
 from pynet import Client
 
 

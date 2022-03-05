@@ -1,5 +1,6 @@
-from p2p_chat_server import Chat
 from sys import argv
+
+from p2p_chat_server import Chat
 
 
 def main():
