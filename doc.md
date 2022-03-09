@@ -15,7 +15,7 @@
   Goes into an infinite loop running the Client, useful if you want to use your own thread or main thread.
   
 - `exit()`\
-  Gets called when an `ConnectionError` happens in `loop()` or can be called to abruptly end the connection.
+  Gets called when an `ConnectionError` or `EOFError` (Likely when the socket disconnects) happens in `loop()` or can be called to abruptly end the connection.
   
 - `_send(data)`\
   Takes in an object and converts it to byte data using pickle, then sends that on the socket.
