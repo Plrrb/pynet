@@ -10,6 +10,9 @@ class Chat(Client):
         self.msg = ""
 
     def on_send(self):
+        if self.msg == "EXIT":
+            self.stop()
+
         temp = self.msg
         self.msg = ""
         return temp
@@ -17,19 +20,17 @@ class Chat(Client):
     def on_recv(self, data):
         if data != "":
             print(data)
+        elif data == "EXIT":
+            self.stop()
 
     def send_msg(self, msg):
         self.msg = msg
 
     def run(self):
-        while True:
+        while self.running:
             i = input()
-
-            if i == "EXIT":
-                self.stop()
-                break
-            else:
-                self.send_msg(i)
+            self.send_msg(i)
+        self.exit()
 
 
 def main():

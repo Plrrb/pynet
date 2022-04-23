@@ -1,6 +1,9 @@
-# Pynet
+# Introduction to Pynet
 
-Pynet is a Python library for making Servers and Clients.
+Pynet uses callback functions to send and receive data accross a network.
+For example the `Client()` class takes in a connected `socket.socket()` and the `on_send` and `on_recv` callback functions,
+then when you call `Client.start()` the `on_send` you passed in will be called, and it must return the data to be sent,
+Then the `on_recv` will be called and it must take in the data that was received.
 
 ## Demo
 
@@ -63,6 +66,7 @@ s.loop()
 ```
 
 ## Documentation
+
 See the Docs [here](https://github.com/Plrrb/pynet/blob/main/doc.md)
 
 ## Installation

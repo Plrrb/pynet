@@ -8,7 +8,7 @@ class Client(Network):
     __slots__ = Network.__slots__
 
     def loop(self):
-        self.running = True
+        super().loop()
 
         try:
             while self.running:
