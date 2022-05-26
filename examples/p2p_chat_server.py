@@ -6,7 +6,8 @@ from pynet import Client
 
 class Chat(Client):
     def __init__(self, sock):
-        self.socket = sock
+        self.sock = sock
+        self.running = False
         self.msg = ""
 
     def on_send(self):
@@ -45,7 +46,6 @@ def main():
 
     c.start()
     print("you are now chatting, type 'EXIT' to disconnect")
-
     c.run()
 
 

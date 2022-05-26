@@ -37,24 +37,14 @@
 - `stop()`\
   Stops waiting for clients to connect without closing the socket, can be started again with `start()` or `loop()`.
   
-- `connect_socket(sock)`\
-  Gets called when a client connects, it should start a `Server.ServerClient()` from a socket.
-  
-- `connect_address(address)`\
-  Same as `connect_socket()` just with an address.
-  
 - `loop()`\
   Goes into an infinite loop waiting for Clients to connect.
   
 - `exit()`\
   Stops wating for Clients to connect and closes the server socket.
+
+- `connect_to(address)`\
+  Connects to `address` and creates a new client with add_client, useful for connecting servers together.
  
  - `from_address(address,  *args,  **kwargs)`\
- Creates a Server for you, just needs a tuple of `(Host, Port)` for the address.
-
-### `Server.ServerClient()`
-  - `server_send()`\
-  Call this to get something to send from the Server.
-  
-  - `server_recv(data)`\
-  Call this to tell the Server you have something to give it.
+  Creates a Server for you, just needs a tuple of `(Host, Port)` for the address.
