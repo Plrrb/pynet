@@ -8,6 +8,8 @@ class Server(__Network__):
     __slots__ = __Network__.__slots__
 
     def loop(self):
+        self.running = True
+
         while self.running:
             sock, address = self.sock.accept()
 

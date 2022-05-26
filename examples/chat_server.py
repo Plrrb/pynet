@@ -4,19 +4,6 @@ from sys import argv
 from pynet import Server
 
 
-class Server2(Server):
-    def __init__(self, sock, on_send, on_recv):
-        self.sock = sock
-        self.c_send = on_send
-        self.c_recv = on_recv
-
-    def on_recv(self, data):
-        if data is None:
-            return
-
-        self.c_recv(data)
-
-
 class Chat:
     def __init__(self, address):
         self.database = {}
